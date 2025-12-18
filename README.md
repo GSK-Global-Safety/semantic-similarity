@@ -1,9 +1,7 @@
 # semantic-similarity
 Semantic Similarity server and API libraries
 
-This is a placeholder repository for our semantic similarity server and supporting API libraries, written in Python and R. 
-
-Pending internal review and approvals. Please check back soon.
+websim contains an Apache Turbine based application that provides the API interfaces to be called from the Python and R libraries found in the api directory.
 
 The tools here were built in support of the following publications:
 
