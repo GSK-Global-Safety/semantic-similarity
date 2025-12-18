@@ -1,0 +1,11 @@
+
+<h1>Legal Notices</h1>
+
+Here are detailed views of our software license, privacy policy, and the terms and conditions on the use of the software. 
+
+<ul>
+	<li> <a href="$link.setPage("legal,Privacy.vm")">Privacy Notice</a> </li>
+	<li> <a href="$link.setPage("legal,Terms.vm")">Terms &amp; Conditions</a> </li>
+	<li> <a href="$link.setPage("legal,License.vm")">Software User License</a> </li>
+</ul>
+					

@@ -1,0 +1,93 @@
+package com.gsk.sia.similarity.wrapper;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/*
+ * Copyright 2001-2019 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License")
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import org.apache.fulcrum.security.model.turbine.entity.TurbineUser;
+import org.apache.torque.criteria.Criteria;
+import org.apache.turbine.om.security.DefaultUserImpl;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gsk.sia.similarity.om.InsightUser;
+import com.gsk.sia.similarity.om.InsightUserPeer;
+
+/**
+ * Custom Wrapper instead fo default Turbine wrapper class
+ * {@link DefaultUserImpl} to allow for annotations, - th single requirment for
+ * wrappers is to implement a constructor with parameter {@link TurbineUser}
+ *
+ */
+@JsonIgnoreProperties({ "permStorage", "type", "objectdata" })
+public class TurbineUserWrapper extends DefaultUserImpl {
+	public TurbineUserWrapper(TurbineUser user) {
+		super(user);
+	}
+
+	/** Logging */
+	private static Log log = LogFactory.getLog(TurbineUserWrapper.class);
+
+	// -------------------- custom methods ---------------------------
+	public boolean getEnabled() {
+		return this.getMyUser().isEnabled();
+	}
+
+	public boolean isActive() {
+		return this.getMyUser().isActive();
+	}
+
+	/**
+	 * A user should map to a single company
+	 * 
+	 * @return
+	 */
+	public InsightUser getMyUser() {
+
+		// always empty for anonymous user
+		if (this.getName().equals("anon"))
+			return null;
+
+		try {
+			Criteria criteria = new Criteria();
+			criteria.where(InsightUserPeer.TURBINE_USER_ID, this.getId());
+			InsightUser u = InsightUserPeer.doSelectSingleRecord(criteria);
+			if (u != null) {
+				return u;
+			} else {
+				log.error("Could not locate IPMUSER map for this user: " + this.getName());
+			}
+			return null;
+		} catch (Exception e) {
+			log.error("Error retrieving user map: " + e.toString());
+			return null;
+		}
+	}
+
+	public String getPrintName() {
+		StringBuilder name = new StringBuilder();
+		if (!StringUtils.isEmpty(this.getFirstName()))
+			name.append(this.getFirstName());
+		name.append(" ");
+		if (!StringUtils.isEmpty(this.getLastName()))
+			name.append(this.getLastName());
+		return name.toString().trim();
+	}
+	// ---------------------------------------------------------------
+
+}

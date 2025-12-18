@@ -1,0 +1,23 @@
+<table class="pure-table">
+	<tr>
+	
+		<th>PT Code</th>
+		<th>HLGT</th>
+		<th>UMLS CUI</th>
+		<th>FAERS Preferred PTs</th>
+		<th>FAERS Preferred LLTs</th>
+		<th>Number of PTs and LLTs</th>
+	</tr>
+	
+	#foreach ( $hlgt in $hlgts  )
+	<tr>
+		<td>$!hlgt.MeddraCode</td>
+		<td>$!hlgt.MeddraTerm </td>
+		<td>$!hlgt.UmlsCui</td>
+		<td>$!hlgt.getFaersPtCount() </td>
+		<td>$!hlgt.getFaersLltCount() </td>
+		<td>$!hlgt.getFaersTotalCount() </td>
+	</tr>
+	#end
+	
+</table>

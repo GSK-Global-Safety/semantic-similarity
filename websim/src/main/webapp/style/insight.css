@@ -1,0 +1,329 @@
+/*
+    -------------------------------------------------------------------------
+      @name: insight.css - Toolkit CSS design
+      @author: The Initial Developer of the Original Code is:
+               Jeffery L. Painter  <jeff@jivecast.com>
+
+      @copyright: Copyright(c) 2014-2021 JiveCast. All rights reserved.
+    -------------------------------------------------------------------------
+*/
+
+/** Begin Base Layout **/
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+input:focus {
+    background-color: #ecffd8;
+}
+
+#header-fixed {
+	position: fixed;
+	top: 0px;
+	display: none;
+	background-color: white;
+}
+
+/* The navigation bar */
+.topnav {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	padding: 0;
+	letter-spacing: 1px;
+}
+
+.navbar {
+	overflow: hidden;
+	background-color: #ffffff;
+	position: fixed; /* Set the navbar to fixed position */
+	top: 0; /* Position the navbar at the top of the page */
+	width: 100%; /* Full width */
+}
+
+.loader {
+	border: 8px solid #ffffff;
+	border-radius: 50%;
+	border-top: 8px solid #3498db;
+	width: 80px;
+	height: 80px;
+	-webkit-animation: spin 1s linear infinite;
+	animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin { 0% {
+	-webkit-transform: rotate(0deg);
+}
+
+100%
+{
+-webkit-transform
+:
+ 
+rotate
+(360deg);
+ 
+}
+}
+@keyframes spin { 0% {
+	transform: rotate(0deg);
+}
+
+100%
+{
+transform
+:
+ 
+rotate
+(360deg);
+ 
+}
+}
+
+/* Box plots */
+.box {
+	font: 10px sans-serif;
+}
+
+.box line, .box rect, .box circle {
+	stroke: #000;
+	stroke-width: 1.5px;
+	fill: #fff;
+}
+
+.box .center {
+	stroke-dasharray: 3 3;
+}
+
+.box .outlier {
+	stroke: #ccc;
+	fill: none;
+}
+
+/* Sentiment distribution graph */
+.bar.negative {
+	fill: #e20f13;
+}
+
+.bar.neutral {
+	fill: #d5d8e0;
+}
+
+.bar.positive {
+	fill: #0eaf29;
+}
+
+/* Pie charts */
+.arc text {
+	font: 10px sans-serif;
+	text-anchor: middle;
+}
+
+.arc path {
+	stroke: #fff;
+}
+
+#wrapper {
+	min-height: 100%;
+	height: auto;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.ui-autocomplete {
+	max-height: 120px;
+	overflow-y: auto;
+	overflow-x: hidden; /* prevent horizontal scrollbar */
+}
+
+.ui-autocomplete-loading {
+	background:
+		url('$content.getURI("scripts/jquery-1.12.1/images/ui-anim_basic_16x16.gif")')
+		no-repeat right center
+}
+
+img.avatar {
+	width: 40%;
+	border-radius: 50%;
+}
+
+.pagination {
+	display: inline-block;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd; border-radius: 5px;}
+
+/**
+ * Split screen
+ */
+.split {
+	height: 50%;
+	overflow: scroll;
+}
+
+
+.hideMe {
+    -moz-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 3s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
+    }
+}
+@-webkit-keyframes cssAnimation {
+    to {
+        width:0;
+        height:0;
+        visibility:hidden;
+    }
+}
+
+
+/** Insight Explorer for social media messages -- */
+.note { border: solid 1px #7099C5; background-color: #f0f0ff; }
+.note .label { background-color: #7099C5; color: #ffffff; }
+
+.post-content { border: solid 1px #80421A; background-color: #FFEBCC; width: 70%; padding: 20px; font-size: 16px; margin-left: 10px; }
+.post-content .label { background-color: #FFEBCC; color: #B5740F; text-decoration: bold; bottom: 5px; margin-bottom: 5px; padding: 4px; }
+
+/** Messages **/
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    width: 400px;
+}
+ 
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+/* IE ONLY */
+* html #mvocTable {
+background:yellow url("none") top left repeat-y;
+}
+* html #row {
+background:url("none") top right repeat-y;
+}
+* html #mvocReportData {
+float:left;
+}
+* html #middle {
+float: left;
+}		
+* html #mvocContent {
+float:right;
+}
+* html .cleaner {
+display:block;
+}
+/* table ends here */
+
+.formTable {
+	display: table;
+	padding: 8px;
+	width: auto;
+}
+
+.formRow {
+	display: table-row;
+}
+.formLabel {
+	float: left;
+	display: table-cell;
+	vertical-align: middle;
+	width: 75px;
+	align: left;
+}
+
+.formInput {
+	float: left;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.divCentered {
+    padding: 0px 125px 0px 125px;
+}
+
+
+#table-div {
+	align: center;
+    max-width: 400px;
+	margin: 3em auto;
+	padding: 10px;
+}
+
+/* Clear OPTION using reset */
+option {
+    font-weight: normal;
+    display: block;
+    white-space: pre;
+    min-height: 1.2em;
+    margin: 0px;
+    padding: 0px;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+}
+
+/* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
+div.panel.show {
+    display: block !important;
+}

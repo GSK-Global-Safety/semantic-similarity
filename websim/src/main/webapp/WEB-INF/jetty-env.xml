@@ -1,0 +1,27 @@
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+  <New id="Turbine" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg> <!-- reference to WebAppContext requires jetty 9.x only  -->
+    <Arg>jdbc/turbine</Arg>
+    <Arg>
+        <New class="org.apache.commons.dbcp.BasicDataSource">
+           <Set name="driverClassName">com.mysql.cj.jdbc.Driver</Set>
+           <Set name="url">jdbc:mysql://localhost:3306/websim</Set>
+           <Set name="username">dbuser</Set>
+           <Set name="password">dbpass</Set>
+           <Set name="connectionProperties">serverTimezone=US/Eastern;useUnicode=true;characterEncoding=utf8;useSSL=false;allowPublicKeyRetrieval=true</Set>
+           <Set name="validationQuery">SELECT 1</Set>          
+        </New>
+    </Arg>
+  </New>
+  
+  <Set name="extraClasspath"></Set>
+  <Call name="setAttribute">
+      <Arg>org.eclipse.jetty.server.webapp.WebInfIncludeJarPattern</Arg>
+      <Arg>.*/spring-[^/]*\.jar$</Arg>
+  </Call>  
+  <Call name="setAttribute">
+      <Arg>org.eclipse.jetty.annotations.multiThreaded</Arg>
+      <Arg type="Boolean">false</Arg>
+    </Call>
+    
+</Configure>

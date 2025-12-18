@@ -1,0 +1,150 @@
+
+<a href="$link.setPage("api,SMQ.vm").addPathInfo("methodCall", "listAll")">test API</a> <br/>
+<a href="$link.setPage("api,SMQ.vm").addPathInfo("methodCall", "getSMQ").addPathInfo("smq", "20000216").addPathInfo("scope", "narrow")">Get single SMQ</a>
+
+
+<h1>Find Semanticly Related Concepts</h1>
+
+
+	   <form name="review" method="post" action="$link.setPage("Index.vm")">
+	   		<input type="hidden" name="matchRelated" value="true">
+		   Select your ontology view:
+		   <select name="ontology">
+			   	<option value="mdr-umls">MedDRA Only</option>
+			   	<option value="msh-umls">MeSH Only</option>
+			   	<option value="sct-umls">Snomed Only</option>
+			   	<option value="sct-mdr" SELECTED>Snomed + MedDRA</option>
+			   	<option value="mdr-msh">MeSH + MedDRA</option>
+			   	<option value="sct-msh-mdr">Snomed + MeSH + MedDRA</option>
+		   </select> <br/>
+
+		   Select your distance metric:
+		   <select name="metric">
+		   	<option value="LCH">LCH</option>
+		   	<option value="INTRINSIC_LCH">Intrinsic LCH</option>
+		   	<option value="INTRINSIC_LIN" SELECTED>Intrinsic LIN</option>
+		   	<option value="JACCARD">Jaccard</option>
+		   	<option value="SOKAL">Sokal</option>
+		   	<option value="BRAUN_BLANQUET">Braun-Blanquet</option>
+		   	<option value="OCHIAI">Ochiai</option>
+		   	<option value="WUPALMER">Wu-Palmer</option>
+		   	<option value="INTRINSIC_RADA">Intrinsic Rada</option>
+		   	<option value="SIMPSON">Simpson</option>
+		   </select> <br/>
+		   
+		   	MedDRA PT Code: <input type="text" name="code1" value="$!matchCode.MeddraCode"> <br/>
+		   	#if ( $limit )
+		   		Distance Threshold: <input type="text" name="limit" value="$limit"> <br/>
+		   	#else
+		   		Distance Threshold: <input type="text" name="limit" value="0.95"> <br/>
+		   	#end
+		   	
+		   Results Filter:
+		   <select name="filter">
+		   	<option value="PT_ONLY" SELECTED>Dispaly only PT codes</option>
+		   	<option value="PT_LLT">Dispaly PT and LLT codes</option>
+		   	<option value="ALL">Dispaly all results</option>
+		   </select> <br/>
+		   
+		   FAERS Filter:	
+		   <select name="faers">
+		   	<option value="true" SELECTED>Filter to PT and LLT codes in Faers</option>
+		   	<option value="false">Include all matches</option>
+		   </select> <br/>
+		   			   	
+		   	<input class="w3-blue" type="submit" name="eventSubmit" value="Find Related Codes"/>
+		   	
+	   </form>
+
+#if ( $matchResults )
+	<h2>Selected Code</h2>
+	<table class="w3-table-all">
+		<tr class="w3-blue">
+			<td> Code </td>
+			<td> Term </td>
+			<td> TTY </td>
+			<td> UMLS CUI </td>
+		</tr>
+		<tr> 
+			<td> $!matchCode.MeddraCode </td>
+			<td> $!matchCode.MeddraTerm </td>
+			<td> $!matchCode.Tty </td>
+			<td> $!matchCode.UmlsCui </td>
+		</tr>
+	</table>	 
+	 
+	 
+	<h2>Related Concepts</h2>
+		<h3>Ontological View: $onto</h3>
+		<h3>Semantic Distance Metric: $metric</h3>
+		<table class="w3-table-all">
+			<tr class="w3-blue">
+				<td> Code </td>
+				<td> Term </td>
+				<td> TTY </td>
+				<td> UMLS CUI </td>
+				<td> Distance Metric </td>
+			</tr>
+			#foreach ( $mc in $matchResults.keySet() )
+				#set( $score = $matchResults.get($mc) )
+			<tr> 
+				<td> $!mc.MeddraCode </td>
+				<td> $!mc.MeddraTerm </td>
+				<td> $!mc.Tty </td>
+				<td> $!mc.UmlsCui </td>
+				<td> $score </td>
+			</tr>
+			#end
+		</table>
+#end
+
+<h1>Compute Distances</h1>
+
+
+	   <form name="review" method="post" action="$link.setPage("Index.vm")">
+	   
+	   Select your ontology view:
+	   <select name="ontology">
+		   	<option value="mdr-umls">MedDRA Only</option>
+		   	<option value="msh-umls">MeSH Only</option>
+		   	<option value="sct-umls">Snomed Only</option>
+		   	<option value="sct-mdr" SELECTED>Snomed + MedDRA</option>
+		   	<option value="mdr-msh">MeSH + MedDRA</option>
+		   	<option value="sct-msh-mdr">Snomed + MeSH + MedDRA</option>
+	   </select> <br/>
+	   
+	   	MedDRA PT Code 1: <input type="text" name="code1" value="$!code1.MeddraCode"> <br/>
+	   	MedDRA PT Code 2: <input type="text" name="code2" value="$!code2.MeddraCode"> <br/>
+	   	<input class="w3-blue" type="submit" name="eventSubmit" value="Compute Metrics"/>
+	   </form>
+
+#if ($results)
+	<h2>Distance Metrics</h2>
+	<h3>Ontological View: $onto</h3>
+	<table class="w3-table-all">
+		<tr class="w3-blue">
+			<td> Code </td>
+			<td> Term </td>
+			<td> TTY </td>
+			<td> UMLS CUI </td>
+		</tr>
+		<tr> 
+			<td> $!code1.MeddraCode </td>
+			<td> $!code1.MeddraTerm </td>
+			<td> $!code1.Tty </td>
+			<td> $!code1.UmlsCui </td>
+		</tr>
+		<tr> 
+			<td> $!code2.MeddraCode </td>
+			<td> $!code2.MeddraTerm </td>
+			<td> $!code2.Tty </td>
+			<td> $!code2.UmlsCui </td>
+		</tr>
+	</table>
+	
+	<ul>
+	#foreach( $result in $results )
+		<li> $result.getMetric() : $result.getScore() </li>
+	#end
+	</ul>
+#end

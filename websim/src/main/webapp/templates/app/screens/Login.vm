@@ -1,0 +1,73 @@
+
+	<!-- Header -->
+	<p> &nbsp; </p>
+	
+  
+	  <div class="w3-row" style="padding:16px 8px; width: 100%;">
+	    <div class="w3-quarter w3-center"> &nbsp; </div>
+	    <div class="w3-half w3-center">
+			<div class="w3-card-4 w3-center w3-light-grey">
+				<div class="w3-center w3-hide-small"><br>
+					<img src="$content.getURI("images/empty_avatar.png")" alt="Avatar" style="width:20%" class="w3-circle w3-margin-top">
+				</div>
+	
+				<form class="w3-container" id="login" name="login" method="post" 
+					action="$link.setAction("LoginUser")">
+					<div class="w3-section">
+				
+						<label for="username"><b>Username</b></label>
+						<input class="w3-input w3-border w3-margin-bottom" placeholder="Enter username" type="text" name="username" value="">
+	
+						<label for="password"><b>Password</b></label>
+						<input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Password" type="password" name="password" value="" required>
+	
+						<button class="w3-button w3-block w3-blue w3-section w3-padding w3-round" type="submit">Login</button>
+			
+					</div>
+				</form>
+	
+				<div class="w3-container w3-light-grey w3-border-top w3-padding-4">
+				</div>
+				
+		    </div>
+	    </div>
+	    <div class="w3-quarter w3-center"> &nbsp; </div>
+	  </div>  
+  
+
+	<!-- Tag line -->
+	<div class="w3-container w3-center w3-padding-32">
+	    <h1 class="w3-margin w3-xlarge"> Semantic Similarity Distance Calculator</h1>
+	</div>
+	
+	<!-- Footer -->
+	<footer class="w3-container w3-padding-16 w3-center w3-opacity">  
+		<div class="w3-xlarge w3-padding-32">
+			<a href="https://twitter.com/jivecast"><i class="fab fa-twitter"></i></a>
+			<a href="https://www.linkedin.com/company/jivecast"><i class="fab fa-linkedin"></i></a>
+		</div>
+		
+		<div id="legalNotices" class="w3-panel">
+			<a class="w3-button w3-light-grey w3-round" href="$link.setPage("legal,Privacy.vm")">Privacy Policy</a>
+			<a class="w3-button w3-light-grey w3-round" href="$link.setPage("legal,Terms.vm")">Terms &amp; Conditions</a>
+			<a class="w3-button w3-light-grey w3-round" href="$link.setPage("legal,License.vm")">Software License Agreement</a>
+		</div>
+		
+		<div class="w3-tiny w3-padding-16">
+			<div class="w3-row">
+				<div class="w3-third">
+					<i class="fa fa-phone" aria-hidden="true"></i> (919) 533-9024 <br/>
+					<i class="fa fa-envelope" aria-hidden="true"></i> 301 Fayetteville St. Suite 2301, Raleigh, NC 27601
+				</div>
+				<div class="w3-third">
+					Powered by <a href="https://jivecast.com" target="_blank">JiveCast</a> <br>
+					All Rights Reserved - &copy;2024
+				</div>
+				<div class="w3-third">
+					<i class="fa fa-at" aria-hidden="true"></i> Email: <a href="mailto:support@jivecast.com">support@jivecast.com</a>
+				</div>
+			</div>
+		</div>
+		
+	</footer>
+

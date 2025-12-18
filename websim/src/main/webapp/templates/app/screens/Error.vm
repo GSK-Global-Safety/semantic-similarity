@@ -1,0 +1,7 @@
+$page.setTitle("Error")
+
+<h2>Error</h2>
+
+#if($data.getMessage())
+ #error( $data.getMessage() )
+#end

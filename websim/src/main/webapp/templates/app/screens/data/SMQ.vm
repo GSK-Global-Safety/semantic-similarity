@@ -1,0 +1,52 @@
+
+#if ( $data.getMessage() )
+	#info( $data.getMessage() )
+#end
+
+<h2>Data Import Manager</h2>
+
+<p>	
+	<h3>Upload MedDRA SMQ Definitions</h3>
+	<!-- ----------------------------------------------------------------------------------- -->
+   <form
+       name="smqImport"
+       method="post"
+       enctype="multipart/form-data"
+       action="$link.setPage("data,SMQ.vm").setAction("admin.DataImportSQL")">
+
+       <table border=0>
+           <tr>
+               #fileUpload( "Pre-Processed File:" "file" )
+           </tr>
+           <tr>
+             <td>
+               <input type="submit" name="eventSubmit_doImport" value="Import"/>
+             </td>
+           </tr>
+       </table>
+
+   </form>
+
+<p>	
+	<h3>Upload FAERS PT Counts</h3>
+	<!-- ----------------------------------------------------------------------------------- -->
+   <form
+       name="smqImport"
+       method="post"
+       enctype="multipart/form-data"
+       action="$link.setPage("data,SMQ.vm").setAction("admin.DataImportSQL")">
+
+       <table border=0>
+           <tr>
+               #fileUpload( "Pre-Processed File:" "file" )
+           </tr>
+           <tr>
+             <td>
+               <input type="submit" name="eventSubmit_doFaers" value="Import"/>
+             </td>
+           </tr>
+       </table>
+
+   </form>
+
+		

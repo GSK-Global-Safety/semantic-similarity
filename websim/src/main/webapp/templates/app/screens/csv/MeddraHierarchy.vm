@@ -1,0 +1,145 @@
+<html 
+    xmlns:o="urn:schemas-microsoft-com:office:office" 
+    xmlns:x="urn:schemas-microsoft-com:office:excel" 
+    xmlns="http://www.w3.org/TR/REC-html40">
+
+    <head>
+
+    <!--
+        Copyright (c) 2016 Jeffery L. Painter, Jr.
+
+        The contents of this file are to be shared only with the parties contracted
+        to receive this information.
+
+        Unlawful use of this data will be punished to the full extent of the law.
+    -->
+
+        <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+        <meta name=ProgId content=Excel.Sheet>
+        <meta name=Generator content="GSK_InsightExplorer">
+
+        <style>
+        <!--
+            .xlNorm {
+                        mso-number-format:General;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlNumberAsText {
+                        mso-number-format:"\@";
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlColWhite {
+                        mso-number-format:General;
+                        background: #ffffff;
+                        font-weight: bold;
+                        color: #0000FF;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlColGray {
+                        mso-number-format:General;
+                        background: #eeeeee;
+                        font-weight: bold;
+                        color: #0000FF;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlColOrange {
+                        mso-number-format:General;
+                        background: #FFAA00;
+                        font-weight: bold;
+                        color: #0000FF;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlColYellow {
+                        mso-number-format:General;
+                        background: #FFFF00;
+                        color: #000000;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+
+            .xlNumberAsTextYellow {
+                        mso-number-format:"\@";
+                        text-align:general;
+                        white-space:nowrap;
+                        background: #FFFF00;
+                        color: #000000;
+                    }
+
+			.xlColLightBlue {
+                        mso-number-format:General;
+                        color: #000000;
+                        text-align:general;
+                        white-space:nowrap;
+						background: #D1F0FF;
+					}
+
+			.xlColPink {
+                        mso-number-format:General;
+                        color: #000000;
+                        text-align:general;
+                        white-space:nowrap;
+						background: #FFCCCC;
+					}
+			
+            .xlColGreen {
+                        mso-number-format:General;
+                        background: #00FF00;
+                        font-weight: bold;
+                        color: #0000FF;
+                        text-align:general;
+                        white-space:nowrap;
+                    }
+                    
+			.xlColDate {
+			  			mso-number-format:"Short Date";
+                        background: #FFFFFF;
+                        color: #000000;
+                        text-align:general;
+                        white-space:nowrap;			  			
+					}                 
+        -->
+        </style>
+    </head>
+                                                                                                                                                             
+    <body>
+
+      <table border=1>
+       <tr>
+		<td class=xlColGreen>PT_Code_1</td>
+		<td class=xlColGreen>PT_Term_1</td>
+		<td class=xlColGreen>PT_Code_2</td>
+		<td class=xlColGreen>PT_Term_3</td>
+		#foreach ( $metric in $metrics  )
+			<td class=xlColGreen>$!metric</td>
+		#end
+       </tr>
+       
+      	#foreach ( $distance in $distances )
+		<tr>
+			#set( $code1 = $distance.getCode1() )
+			#set( $code2 = $distance.getCode2() )
+			#set ( $scores = $distance.getDistanceMetrics() )
+			<td>$!code1.getCode()</td>
+			<td>$!code1.getTerm()</td>
+			<td>$!code2.getCode()</td>
+			<td>$!code2.getTerm()</td>
+			#foreach ( $metric in $metrics  )
+				#set( $score = $!scores.get($metric) )
+				<td> $score </td>
+			#end
+		</tr>
+		#end
+  </table>
+
+    </body>
+</html>

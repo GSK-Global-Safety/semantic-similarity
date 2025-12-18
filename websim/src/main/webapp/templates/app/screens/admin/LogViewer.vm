@@ -1,0 +1,43 @@
+<h2>Log Viewer</h2>
+
+#if ( $data.getMessage() )
+	$data.getMessage()
+#end
+
+
+#if ( $entries )
+
+<table class="pure-table">
+	<tr>
+		<th>Counter</th>
+		<th>Date</th>
+		<th>Transaction Type</th>
+		<th>User</th>
+		<th>Description</th>
+	</tr>
+	
+	#set ( $i = ( ($!current_page - 1) * 50 ) )
+	#foreach ( $e in $!entries )
+	#set ( $i = $i + 1 )
+	<tr>
+		#set ( $u = $e.getInsightUser() )
+		<td align="center">$!i</td>
+		<td align="center"> $date.displayDate( $!e.TxDate ) </td>
+		<td align="center">$!e.TransactionType</td>
+		<td align="left">$!u.UserName</td>
+		<td align="left">$!e.Message</td>
+	</tr>
+	#end
+	
+</table>
+
+
+#if ( $page_links.size() > 1 )
+	More results...
+	#foreach ( $idx in $page_links )
+		<a href="$link.setPage("admin,LogViewer.vm").addPathInfo("idx", $idx)">&nbsp; $idx &nbsp;</a>
+	#end
+#end
+
+
+#end

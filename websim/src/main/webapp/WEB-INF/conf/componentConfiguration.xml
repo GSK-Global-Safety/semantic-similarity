@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<componentConfig>
+    <!-- Torque Component -->
+    <torque>
+       <configfile>/WEB-INF/conf/Torque.properties</configfile>
+    </torque>
+    <cache cacheInitialSize="20" cacheCheckFrequency="5"/>
+    <mimetype/>
+    <crypto>
+      <algorithm>
+        <unix>org.apache.fulcrum.crypto.provider.UnixCrypt</unix>
+        <clear>org.apache.fulcrum.crypto.provider.ClearCrypt</clear>
+        <java>org.apache.fulcrum.crypto.provider.JavaCrypt</java>
+        <oldjava>org.apache.fulcrum.crypto.provider.OldJavaCrypt</oldjava>
+      </algorithm>
+    </crypto>
+    <localization>
+      <bundles>
+        <bundle>com.gsk.sia.similarity.L10N</bundle>
+      </bundles>
+    </localization>
+    <!-- Disable if you experience startup problems with Java8 -->
+    <factory/>
+    <pool/>
+    <parser>
+        <!-- <urlCaseFolding>lower</urlCaseFolding> -->
+        <parameterEncoding>utf-8</parameterEncoding>
+        <automaticUpload>true</automaticUpload>
+    </parser>
+    <!-- defining specific inspectors -->
+    <json>
+       <annotationInspectors>
+            <primary>org.apache.fulcrum.json.jackson.SimpleNameIntrospector</primary>
+            <secondary>com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector</secondary>
+            <features>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">FAIL_ON_EMPTY_BEANS</feature>
+              <feature value="false" type="com.fasterxml.jackson.databind.SerializationFeature">INDENT_OUTPUT</feature>
+              <feature value="true" type="com.fasterxml.jackson.core.JsonParser">ALLOW_UNQUOTED_FIELD_NAMES</feature>
+            </features>
+        </annotationInspectors>
+        <dateFormat>MM/dd/yyyy</dateFormat>
+        <cacheFilters>true</cacheFilters>
+        <!-- security feature -->
+        <escapeCharsGlobal>true</escapeCharsGlobal>
+        <!--  escapeCharsClass>net.example.EscapeCharClass</escapeCharsClass -->
+        <defaultTyping type="OBJECT_AND_NON_CONCRETE" key="type"/><!-- defaultTyping type="NON_FINAL" key="type"/-->
+        <!-- requires com.jayway dependency in pom -->
+        <!-- useJsonPath>true</useJsonPath -->
+    </json>
+    
+    <upload repository="/tmp" sizeMax="1048576" sizeThreshold="10240"/>
+        <!-- These components belong to the Fulcrum-Security services -->        
+    <securityService/>
+    <authenticator/>
+    <modelManager/>
+    <aclFactory/>
+    
+   <userManager>
+        <className>com.gsk.sia.similarity.om.TurbineUser</className>
+        <peerClassName>com.gsk.sia.similarity.om.TurbineUserPeerImpl</peerClassName>
+        <userGroupRoleManager><!-- using custom peers requires now this element -->
+	        <!-- className>org.apache.fulcrum.security.torque.om.TurbineUserGroupRole</className-->
+	        <peerClassName>com.gsk.sia.similarity.om.TurbineUserGroupRolePeerImpl</peerClassName>
+	    </userGroupRoleManager>
+    </userManager>
+    <groupManager><!-- might have lazy="true" attribute -->
+        <className>com.gsk.sia.similarity.om.TurbineGroup</className>
+        <peerClassName>com.gsk.sia.similarity.om.TurbineGroupPeerImpl</peerClassName>
+    </groupManager>
+    <roleManager><!-- might have lazy="true" attribute -->
+        <className>com.gsk.sia.similarity.om.TurbineRole</className>
+        <peerClassName>com.gsk.sia.similarity.om.TurbineRolePeerImpl</peerClassName>
+    </roleManager>
+    <permissionManager>
+        <className>com.gsk.sia.similarity.om.TurbinePermission</className>
+        <peerClassName>com.gsk.sia.similarity.om.TurbinePermissionPeerImpl</peerClassName>
+    </permissionManager>
+     <peerManager/>
+     
+</componentConfig>

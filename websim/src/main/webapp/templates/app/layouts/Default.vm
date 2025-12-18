@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Semantic Similarity Calculator&trade;</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="$content.getURI("images/app.ico")" />
+	
+	<link rel="stylesheet" href="$content.getURI("style/w3-v4.13.min.css")" type="text/css"/>
+	<link rel="stylesheet" href="$content.getURI("style/lib/w3-theme-black.css")" type="text/css" />
+	<link rel="stylesheet" href="$content.getURI("style/font-awesome-5.14.0/css/all.min.css")" type="text/css" />
+	<link rel="stylesheet" href="$content.getURI("style/flatpickr.min.css")" type="text/css" />
+	<link rel="stylesheet" href="$content.getURI("style/flatpickr_themes/light.css")" type="text/css" />
+	
+	<link rel="stylesheet" href="$content.getURI("style/insight.css")" type="text/css" />
+	
+	<!-- for question groups -->
+	<link rel="stylesheet" href="$content.getURI("style/tabcontent.css")" type="text/css"/>
+    <link rel="stylesheet" href="$content.getURI("style/pure-min.css")"   type="text/css"/>
+	
+	<script type="text/javascript" src="$content.getURI("scripts/w3.js")" charset="utf-8"></script>
+	<script type="text/javascript" src="$content.getURI("scripts/utils.js")" charset="utf-8"></script>
+	<script type="text/javascript" src="$content.getURI("scripts/flatpickr.js")" charset="utf-8"></script>
+	<script type="text/javascript" src="$content.getURI("scripts/tabcontent.js")"></script>
+
+</head>
+
+<body onload="javascript:preset()" class="w3-white">
+
+	<!-- menu -->
+	$navigation.setTemplate("/Menu.vm")
+	
+	<p> &nbsp; </p>
+
+	<!--  content -->
+	<div class="w3-padding" id="content">
+		
+		## Global message handler in the default layout
+		#if ( $data.getMessage() )
+			#if ( $error )
+				#error( $data.getMessage() )
+			#else
+				#info( $data.getMessage() )
+			#end
+		#end
+
+		$screen_placeholder
+
+	</div>
+
+</body>
+</html>

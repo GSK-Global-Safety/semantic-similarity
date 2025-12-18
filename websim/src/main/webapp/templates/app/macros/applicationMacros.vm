@@ -1,0 +1,160 @@
+##
+## $Id: applicationMacros.vm 222027 2014-12-01 16:11:37Z jpainter $
+##
+## Default Macro file for Insight Explorer
+##
+## Put your Application macros in this file.
+##
+
+#* ------------------------------------------------------------------
+#    Global Macros
+*# ------------------------------------------------------------------
+
+#macro (insert)
+    <input type="submit" name="eventSubmit_doInsert" value="Insert"/>
+#end
+
+#macro (save)
+    <input type="submit" name="eventSubmit_doUpdate" value="Update"/>
+#end
+
+#macro (remove)
+    <input type="submit" name="eventSubmit_doDelete" value="Remove"/>
+#end
+
+
+#macro (warning $msg)
+<div class="frame warning">
+    <div align="left" class="label">Warning</div>
+    <div class="content">$msg</div>
+</div>
+#end
+
+#macro (error $msg)
+<div class="frame warning">
+    <div align="left" class="label">Error</div>
+    <div class="content">$msg</div>
+</div>
+#end
+
+#macro(info $msg)
+<div class="alert alert-info">
+  <strong>Message:</strong> $msg
+</div>
+#end
+
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for displaying input forms.
+#
+*# ------------------------------------------------------------------
+
+#macro (text $text)
+    $text
+#end
+
+#macro (fileUploadField $name)
+   <td nowrap>
+       <input type="file" size="30" name="$name" class="smallIO">
+   </td>
+#end
+
+#macro (fileUpload $label $name)
+   #formLabel($label)
+   #fileUploadField($name)
+#end
+
+#macro (formLabel $label)
+  <td nowrap>
+    $!label
+  </td>
+#end
+
+#macro (formCheckBox $label $name $checked)
+   #formLabel( $label )
+   #checkBox( $name $checked )
+#end
+
+#macro (checkBox $name $checked)
+   <td>
+     <input type="checkbox" class="smallIO" name="$!name" value="1" #if($checked)checked#end/>
+   </td>
+#end
+
+#macro (formLabelRequired $label)
+  <td nowrap>
+        <font color="red"> $label </font>
+  </td>
+#end
+
+#macro (formTextField $name $value)
+  <td nowrap>
+      <input type="text" size="30" name="$!name" value="$!value" class="smallIO">
+  </td>
+#end
+
+#macro (smallFormTextField $name $value)
+  <td nowrap>
+      <input type="text" size="12" name="$!name" value="$!value" class="smallIO">
+  </td>
+#end
+
+#macro (textField $name $value $size)
+    <input type="text" size="26" name="$!name" value="$!value" class="smallIO">
+#end
+
+
+#macro (formPasswordCell $label $name $value)
+  <td nowrap>
+        $label
+  </td>
+  <td nowrap>
+      <input type="password" size="30" name="$!name" value="$!value" class="smallIO">
+  </td>
+#end
+
+#macro (formCellRequired $label $name $value)
+<p>
+  #formLabelRequired($label)
+  #formTextField($name $value)
+</p>
+#end
+
+#macro (formCell $label $name $value)
+  <p>
+  #formLabel($label)
+  #formTextField($name $value)
+  </p>
+#end
+
+#macro (smallFormCell $label $name $value)
+  <p>
+  #formLabel($label)
+  #smallFormTextField($name $value)
+  </p>
+#end
+
+
+
+#* ------------------------------------------------------------------
+#
+# Macros that are used for displaying information in tables.
+#
+*# ------------------------------------------------------------------
+
+#macro (headerCell $body)
+  <th> <b> $body </b> </th>
+#end
+
+#macro (entryCell $body)
+  <td>
+      $body &nbsp;
+  </td>
+#end
+
+#macro (listingCell $body $color)
+  <td>
+      $body &nbsp;
+  </td>
+#end

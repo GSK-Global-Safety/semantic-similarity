@@ -1,0 +1,50 @@
+
+	#if ( $data.getMessage() )
+		#info( $data.getMessage() )
+	#end
+	
+	<h2>Curation Manual Manager</h2>
+	<h4>Please upload only MS-Word documents as that is the expected format</h4>
+	
+	<p>	
+		<h3>Upload new curation manual</h3>
+		<!-- ----------------------------------------------------------------------------------- -->
+	    <form
+	        name="manualImport"
+	        method="post"
+	        enctype="multipart/form-data"
+	        action="$link.setPage("admin,Help.vm").setAction("admin.HelpSQL")">
+	
+	        <table border=0>
+	        
+	            <tr>
+	                #fileUpload( "File:" "file" )
+	            </tr>
+	            <tr>
+	              <td>
+	                Change Log: <input type="text" name="changeLog" value=""/>
+	              </td>
+	            	
+	            </tr>
+	            <tr>
+	              <td>
+	                <input type="submit" name="eventSubmit_doUpload" value="Upload"/>
+	              </td>
+	            </tr>
+	        </table>
+	
+	    </form>
+
+		<p/>
+		<table class="pure-table"  border="0" cellpadding="0" cellspacing="0" width="65%">
+			<tr> 
+				<th> Version </th> <th> Uploaded By </th> <th> Change Log </th> <th> Date Uploaded </th> <th>Current Version </th>
+			</tr>
+	
+		#foreach ( $file in $files )
+			<tr> 
+				<td align="center"> <a href="$link.setPage("help,HelpFile.vm").addPathInfo("helpId", $!file.RefId)">$!file.RefId</a> </td> <td> $!file.getInsightUser().FirstName $!file.getInsightUser().LastName  </td> <td>  $!file.ChangeLog </td> <td>  $!date.displayDate( $!file.ModifiedDate ) </td> <td> $!file.Enabled </td>
+			</tr>
+		#end
+		</table>	   
+			

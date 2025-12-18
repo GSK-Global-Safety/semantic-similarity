@@ -1,0 +1,42 @@
+<h1>MedDRA Term Search</h1>
+<i>The first time you perform a search, the system must load all of MedDRA which takes a few seconds. Subsequent searches, will be near instant.</i>
+
+	   <form name="search" method="post" action="$link.setPage("meddra,Search.vm")">
+	   			   
+	   		Search Term: <input type="text" name="term" value=""> <br/>
+	   		
+			Results Filter:
+			   <select name="pt_filter">
+			   	<option value="PT_ONLY" SELECTED>Dispaly only PT codes</option>
+			   	<option value="PT_LLT">Dispaly PT and LLT codes</option>
+			   	<option value="ALL">Dispaly all results</option>
+			   </select> <br/>
+			   
+			Match Threshold (0.7 recommended): <input type="text" name="probability" value="0.7"> <br/>		   	   		
+		   	<input class="w3-blue" type="submit" name="eventSubmit" value="Search MedDRA Codes"/>
+		   	
+	   </form>
+
+	   
+	   #if ( $results )
+	   <table class="w3-table-all">
+	   	<tr class="w3-blue">
+	   		<td> AUI </td>
+	   		<td> CUI </td>
+	   		<td> MedDRA Code </td>
+	   		<td> MedDRA Term </td>
+	   		<td> TTY </td>
+	   		<td> Probability of Match </td>
+	   	</tr>
+	   	#foreach ( $mc in $results )
+	   		<tr>
+	   			<td> $mc.Aui </td>
+	   			<td> $mc.Cui </td>
+	   			<td> $mc.Code </td>
+	   			<td> $mc.Term </td>
+	   			<td> $mc.Tty </td>
+	   			<td> $mc.MatchProbability </td>
+	   		</tr> 
+	   	#end
+	   </table>
+	   #end

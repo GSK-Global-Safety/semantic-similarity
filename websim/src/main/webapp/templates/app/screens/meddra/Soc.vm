@@ -1,0 +1,17 @@
+<table class="pure-table">
+	<tr>
+	
+		<th>PT Code</th>
+		<th>SOC</th>
+		<th>UMLS CUI</th>		
+	</tr>
+	
+	#foreach ( $soc in $socs  )
+	<tr>
+		<td>$!soc.MeddraCode</td>
+		<td>$!soc.MeddraTerm </td>
+		<td>$!soc.UmlsCui</td>
+	</tr>
+	#end
+	
+</table>

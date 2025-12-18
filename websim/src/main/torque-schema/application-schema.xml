@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+
+<!-- ============================================================================== -->
+<!--                                                                                -->
+<!--  Database Definition for the Application                                       -->
+<!--                                                                                -->
+<!--  @version $Id: application-schema.xml                                          -->
+<!--                                                                                -->
+<!-- ============================================================================== -->
+
+<database xmlns="http://db.apache.org/torque/5.0/templates/database"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://db.apache.org/torque/5.0/templates/database
+        http://db.apache.org/torque/torque-5.0/documentation/orm-reference/database-5-0-strict.xsd"
+  name="websim"
+  defaultIdMethod="native">
+
+
+  <!-- extend the base user -->
+  <table name="INSIGHT_USER" idMethod="native">
+    <!-- default turbine/torque user fields :: DO NOT CHANGE -->
+    <column name="USER_ID" required="true" primaryKey="true" type="INTEGER"/>
+    <column name="TURBINE_USER_ID" 	type="INTEGER" default="0"/>
+
+    <!-- custom user fields -->
+    <column name="FIRST_NAME" 		type="VARCHAR" size="500"/>
+    <column name="LAST_NAME" 		type="VARCHAR" size="500"/>
+    <column name="EMAIL" 			type="VARCHAR" size="500"/>
+    <column name="ACTIVE" 			type="BOOLEANINT" default="1"/>
+    <column name="ENABLED" 			type="BOOLEANINT" default="1" javaName="Enabled"/>
+    <column name="LOGIN_ATTEMPT" 	type="INTEGER" default="1" javaName="LoginAttempts"/>
+    <column name="MODIFIED_DATE"    type="TIMESTAMP"/>
+    <column name="LAST_LOGIN"       type="TIMESTAMP"/>
+    
+    <unique>
+        <unique-column name="TURBINE_USER_ID"/>
+    </unique>    
+    
+  </table>
+
+
+  <!-- Curation Manual -->
+  <table name="HELP_FILE" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="USER_ID"               required="true" type="INTEGER"/>
+    <column name="CHANGE_LOG"                            type="VARCHAR" size="1024"/>
+    <column name="MODIFIED_DATE"                         type="TIMESTAMP"/>
+    <column name="ENABLED"                               type="BOOLEANINT" default="1"/> <!--  which version should we use -->
+    <column name="DOCUMENT"                              type="BLOB"/> <!--  the actual help file is stored here -->
+    <foreign-key foreignTable="INSIGHT_USER">
+        <reference local="USER_ID" foreign="USER_ID"></reference>
+    </foreign-key>    
+  </table>
+
+
+  
+
+  <!-- MedDRA codes from UMLS import -->
+  <table name="MEDDRA_VERSION" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="VERSION"							type="CHAR"    size="5"/>
+  </table>
+  
+  <!-- MedDRA codes from UMLS import -->
+  <table name="MEDDRA_CODE_TYPE" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="CODE_TYPE"							type="CHAR"    size="5"/> <!--  PT, LLT, SOC, etc.. -->
+  </table>
+  
+    <!-- Actual MedDRA codes and descriptors -->
+   <table name="MEDDRA_CODE" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="UMLS_AUI"                             type="CHAR"    size="20"/>
+    <column name="UMLS_CUI"                             type="CHAR"    size="20"/>
+    <column name="MEDDRA_CODE"                          type="CHAR"    size="20"/>
+    <column name="MEDDRA_TERM"                          type="CHAR"    size="150"/>
+    <column name="CODE_ID"								type="INTEGER"/>
+    <column name="VERSION_ID"							type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE_TYPE">
+        <reference local="CODE_ID" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_VERSION">
+        <reference local="VERSION_ID" foreign="REF_ID"></reference>
+    </foreign-key>
+   </table>
+   
+   <!-- Actual MedDRA codes and descriptors -->
+   <table name="MEDDRA_SMQ" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="CODE"                                 type="CHAR"    size="40"/>
+    <column name="NAME"                                 type="CHAR"    size="120"/>
+    
+    <!--  SMQ type (broad/narrow) -->
+    <column name="BROAD"                                type="BOOLEANINT" default="0"/>
+    <column name="NARROW"                               type="BOOLEANINT" default="0"/>
+   </table>
+   
+   <!-- SMQ code entries -->
+   <table name="MEDDRA_SMQ_CODE" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="SMQ_ID"								type="INTEGER"/>
+    <column name="CODE_ID"								type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_SMQ">
+        <reference local="SMQ_ID" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="CODE_ID" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- Build the hierarchy entries -->
+   <table name="MEDDRA_HIERARCHY" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="PARENT_CODE"                          type="INTEGER"/>
+    <column name="CHILD_CODE"                           type="INTEGER"/>
+    <column name="CONTEXT"                              type="INTEGER" default="1"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PARENT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="CHILD_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- Build the hierarchy entries -->
+   <table name="MEDDRA_LLT_PT_MAP" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="LLT_CODE"                             type="INTEGER"/>
+    <column name="PT_CODE"                              type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="LLT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- Build the hierarchy entries -->
+   <table name="FAERS_HIERARCHY" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="PARENT_CODE"                          type="INTEGER"/>
+    <column name="CHILD_CODE"                           type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PARENT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="CHILD_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- FAERS PT preferred SOC -->
+   <table name="FAERS_MPS" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="PT_CODE"                          type="INTEGER"/>
+    <column name="SOC_CODE"                           type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="SOC_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- FAERS PT preferred HLGT -->
+   <table name="FAERS_MPG" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="PT_CODE"                          type="INTEGER"/>
+    <column name="HLGT_CODE"                           type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="HLGT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+   <!-- FAERS PT preferred HLT -->
+   <table name="FAERS_MPH" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="PT_CODE"                          type="INTEGER"/>
+    <column name="HLT_CODE"                           type="INTEGER"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="PT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="HLT_CODE" foreign="REF_ID"></reference>
+    </foreign-key>    
+   </table>
+
+
+  <!-- Frequency count of PT Codes in FAERS data -->
+  <table name="FAERS_CODE" idMethod="native">
+    <column name="REF_ID"            required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="CODE_ID"								type="INTEGER"/>
+    <column name="COUNT"								type="INTEGER" default="0"/>
+    <foreign-key foreignTable="MEDDRA_CODE">
+        <reference local="CODE_ID" foreign="REF_ID"></reference>
+    </foreign-key>        
+  </table>
+
+
+  <!-- keep a complete history of user activity -->
+  <!-- transaction log -->
+  <table name="EVENT_LOG" idMethod="native">
+    <column name="LOG_ID"                required="true" primaryKey="true" type="INTEGER" autoIncrement="true"/>
+    <column name="USER_ID"               required="true" type="INTEGER"/>
+    <column name="TRANSACTION_TYPE"                      type="INTEGER"/>
+    <column name="MESSAGE"                               type="VARCHAR" size="500"/>
+    <column name="DESCRIPTION"                           type="VARCHAR" size="300"/>
+    <column name="TX_DATE"                               type="TIMESTAMP"/>
+    <foreign-key foreignTable="INSIGHT_USER">
+        <reference local="USER_ID" foreign="USER_ID"></reference>
+    </foreign-key>
+  </table>
+
+
+
+</database>

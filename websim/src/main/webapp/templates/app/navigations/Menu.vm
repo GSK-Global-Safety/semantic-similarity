@@ -1,0 +1,53 @@
+	<div class="w3-container topnav" id="topnav" style="position: fixed; top: 0px;">
+
+    ## Test that the user is logged in
+	#if ( $data.getUser().hasLoggedIn() )
+		#set ( $user = $data.getUser() )
+		
+		## ------------------------------------------------------------
+		## Normal User
+		## ------------------------------------------------------------	
+		<div class="w3-bar w3-light-grey w3-border w3-large">
+			<a class="w3-bar-item w3-button w3-green" href="$link.setPage("Index.vm")" class="w3-green"><i class="fa fa-calculator"></i></a>
+		
+			  
+			  <div class="w3-dropdown-hover">
+			    <button class="w3-button"><i class="fa fa-cogs"></i></button>
+			    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+			      ## every user can change their password
+		          <a class="w3-bar-item w3-button" href="$link.setPage("config,Password.vm")">Set Password <div class="w3-right"><i class="fa fa-unlock"></i></div></a>
+		          
+		          #if ( $data.getACL().hasRole("administrator") )
+		              <a class="w3-bar-item w3-button" href="$link.setPage("data,SMQ.vm")">Import Data <div class="w3-right"><i class="fa fa-database"></i></div></a>
+				      <a class="w3-bar-item w3-button" href="$link.setPage("user,FluxUserList.vm")">User List <div class="w3-right"><i class="fa fa-users"></i></div></a>
+				      <a class="w3-bar-item w3-button" href="$link.setPage("role,FluxRoleList.vm")">User Roles <div class="w3-right"><i class="fa fa-user-plus"></i></div></a>
+				      <a class="w3-bar-item w3-button" href="$link.setPage("user,FluxUserForm.vm")?mode=insert">Add User <div class="w3-right"><i class="fa fa-user"></i></div></a>
+				      <a class="w3-bar-item w3-button" href="$link.setPage("admin,LogViewer.vm")">System Logs <div class="w3-right"><i class="fa fa-exclamation-triangle"></i></div></a>
+			      #end
+			      
+			    </div>
+			   </div>			  
+	
+			<a class="w3-bar-item w3-button w3-right w3-red" href="$link.setAction("LogoutUser").setPage("Login.vm")"> <i class="fa fa-power-off"></i></a>
+			#if ( $data.getUser().hasLoggedIn() ) 
+				#set ( $u = $data.getUser() )
+				<div class="w3-bar-item w3-right">Semantic Similarity Calculator&trade;</div>
+			#end
+				
+		</div>
+
+	#else
+		<div class="w3-bar w3-light-grey w3-border w3-large navbar">
+			<a class="w3-bar-item w3-button w3-blue w3-left" href="$link.setPage("Login.vm")">Login <i class="fa fa-angle-right margin-left-10"></i></a>
+			<a class="w3-bar-item w3-button w3-green" href="$link.setPage("Index.vm")" class="w3-green"><i class="fa fa-calculator"></i></a>
+			<a class="w3-bar-item w3-button" href="$link.setPage("meddra,Soc.vm")">SOCs</a>
+			<a class="w3-bar-item w3-button" href="$link.setPage("meddra,Hlgt.vm")">HLGTs</a>
+			<a class="w3-bar-item w3-button" href="$link.setPage("meddra,Search.vm")">Search</a>
+			
+			<div class="w3-bar-item w3-right">Semantic Similarity Calculator&trade;</div>
+		</div>
+	#end
+	
+	</div>
+
+	
